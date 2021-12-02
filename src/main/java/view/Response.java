@@ -1,6 +1,6 @@
 package view;
 public class Response {
-    public String username=MainMenu.currentUser;
+//    public String username=MainMenu.currentUser;
     public static String welcome="Welcome to our program";
     public static String register="1.register";
     public static String login="2.login";
@@ -9,8 +9,8 @@ public class Response {
     public static String sameemail="User with this email already exists!";
     public static String invalidemail="Email address is invalid!";
     public static String loginsuccessfully="user logged in successfully!";
-    public static String userexist="user with username "+username+" already exists!";
-    public static String nousernameexist="There is not any user with username:"+username+"!";
+//    public static String userexist="user with username "+username+" already exists!";
+//    public static String nousernameexist="There is not any user with username:"+username+"!";
     public static String nonmatch="Username and password didn't match!";
     public static String successfullylogin="user login successfully!";
     public static String wrongpass="wrong old password!";
@@ -27,9 +27,9 @@ public class Response {
     public static String updatepriority="Priority updated successfully!";
     public static String invaliddeadline="New deadline is invalid!";
     public static String updatedeadline="Deadline updated successfully!";
-    public static String nouserinlist="There is not any user with this username "+username+" in list!";
-    public static String successfulremove="User "+username+" removed successfully! ";
-    public static String successadd="User "+username+" added successfully! ";
+//    public static String nouserinlist="There is not any user with this username "+username+" in list!";
+//    public static String successfulremove="User "+username+" removed successfully! ";
+//    public static String successadd="User "+username+" added successfully! ";
     public static String notask="no task yet";
     public static String notpermission="You do not have the permission to do this action!";
     public static String finish="Please finish creating the board first";
