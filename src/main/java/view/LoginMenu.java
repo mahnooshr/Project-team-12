@@ -3,7 +3,7 @@ package view;
 import controller.Controller;
 import controller.Regex;
 
-public class WelcomeMenu {
+public class LoginMenu {
 
     private void userLogin(String userName, String password) {
 
