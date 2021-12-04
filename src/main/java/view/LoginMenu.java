@@ -2,37 +2,34 @@ package view;
 
 import controller.Controller;
 import controller.Regex;
+public class LoginMenu extends Menu{
+    public LoginMenu(String name, Menu parent) {
+        super(name, parent);
+    }
+
+    @Override
+    public void show() {
+        System.out.println("----------" + this.name +"----------" );
+        System.out.println("Write back to return");
+    }
+
+    @Override
+    public void execute() {
+        Matcher matcher;
+        Menu nextMenu = this;
+        String input = getInputFromUser();
+        if(matcher=Regex.getMatcher(login, Regex.login).matches())
+            userLogin(matcher);
+        
+}
 
 public class LoginMenu {
 
-    private void userLogin(String userName, String password) {
-
+    private void userLogin(Matcher matcher) {
+String urername=matcher.group(1);
+        String password=matcher.group(2);
+        LoginController.loginuser(username,password);
     }
 
 
-    public void run() {
-        Controller controller = Controller.getInstance();
-        while (true) {
-            System.out.println(Response.welcome + "\n" +
-                    "please write one of the numbers to say your command:\n" +
-                    "1- login\n" +
-                    "2- register");
-            String command = controller.getInput();
-            if (command.equals("1")){
-
-                System.out.println("please enter your information as follows:\n" +
-                        "user create --username <username> --password1 <password> --password2 <password> --email <email>\n");
-                System.out.println(Controller.register(controller.getInput()));
-            }else if (command.equals("2")){
-                System.out.println("please enter your information as follows:\n" +
-                        "user login --username <username> --password <password>");
-            }else if (command.equals("end"))
-            {
-                break;
-            }
-            else {
-                System.out.println("Invalid command. Please try again.");
-            }
-        }
-    }
 }
