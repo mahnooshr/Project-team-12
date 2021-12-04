@@ -12,17 +12,22 @@ public class Controller {
             return false;
         } else {
             for (User user : User.getAllUsers().keySet()) {
-                if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                if (user.getUsername().equals(username) )
                     activeUser = user;
+    
                 }
             }
             if (activeUser == null) {
-                System.out.println("Username or password is wrong!!!");
+                System.out.println(view.Response.nousernameexist+username+"!");
+                return false;
+            }
+      if (!activeUser.getPassword.equals(password)) {
+                System.out.println(view.Response.nonmatch);
                 return false;
             }
             else {
                 User.getAllUsers().replace(activeUser, true);
-                System.out.println("" + activeUser.getUsername() + " has logged in successfully");
+                System.out.println(view.Response.successfullylogin);
                 return true;
             }
         }
