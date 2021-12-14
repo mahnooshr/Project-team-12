@@ -1,17 +1,25 @@
 package model;
 
-import org.junit.Test;
+import java.util.HashMap;
 
 public class Task {
+    private static HashMap<Long,Task>tasks = new HashMap<>();
     private long id;
     private String title;
     private String description;
     private String dateAndTimeOfCreation;
     private String dateAndTimeOfDeadLine;
-    private StringBuilder comments;
+    private String comments;
     private Priority priority;
 
-    public Task() {
+    public Task(Priority priority, String comments, String dateAndTimeOfCreation, String dateAndTimeOfDeadLine, String title) {
+        this.priority = priority;
+        this.comments = comments;
+        this.dateAndTimeOfCreation = dateAndTimeOfCreation;
+        this.dateAndTimeOfDeadLine = dateAndTimeOfDeadLine;
+        this.title = title;
+        this.id = IDGenerator.nextId();
+        tasks.put(id,this);
     }
 
 
@@ -19,7 +27,7 @@ public class Task {
         this.id = id;
     }
 
-    public void setComments(StringBuilder comments) {
+    public void setComments(String comments) {
         this.comments = comments;
     }
 
@@ -67,7 +75,7 @@ public class Task {
         return title;
     }
 
-    public StringBuilder getComments() {
+    public String getComments() {
         return comments;
     }
 
