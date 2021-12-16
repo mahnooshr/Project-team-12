@@ -3,7 +3,6 @@ package view;
 import controller.menusControllers.TasksMenuController;
 import controller.utilityController.RegexController;
 import controller.utilityController.UtilController;
-import model.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,7 +54,7 @@ public class TasksMenuView extends MenuView {
 
     private void checkAddUserRegex(String command) {
         HashMap<String, ArrayList<String>> info = new HashMap<>();
-        if (!RegexController.addUserRegex(command, info)) {
+        if (!regexController.addUserRegex(command, info)) {
             UtilController.printString("invalid command");
         } else {
             long id = Long.parseLong(String.valueOf(info.get("id")));
@@ -74,7 +73,7 @@ public class TasksMenuView extends MenuView {
             UtilController.printString(tasksMenuController.removeUsersByTaskId(id,users));
         }
     }
-
+////////////////////////////
     private void checkDeadLineChangeRegex(String command) {
         HashMap<String, String> info = new HashMap<>();
         if (!RegexController.deadlineRegex(command, info)) {

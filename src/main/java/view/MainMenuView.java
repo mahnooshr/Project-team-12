@@ -1,7 +1,6 @@
 package view;
 
 import controller.menusControllers.MainMenuController;
-import controller.utilityController.RegexController;
 import controller.utilityController.UtilController;
 
 import java.util.HashMap;
@@ -65,12 +64,12 @@ public class MainMenuView extends MenuView {
 
     private void checkEnterMenuRegex(String command) {
         HashMap<String, String> info = new HashMap<>();
-        if (!RegexController.enterMenuRegex(command, info)) {
+        if (!regexController.enterMenuRegex(command, info)) {
             UtilController.printString("invalid command");
         } else {
             String response = mainMenuController.menuEnter(info.get("menuName"));
             if (response.equals("menu enter successfully")) {
-                nextMenu = MainMenuController.getAllMenus().get(info.get("menuName"));
+                nextMenu = mainMenuController.getAllMenus().get(info.get("menuName"));
                 enter = true;
             }
             UtilController.printString(response);

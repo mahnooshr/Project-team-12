@@ -6,7 +6,12 @@ import model.User;
 
 import java.util.ArrayList;
 
-public class TasksMenuController {
+public class TasksMenuController extends MenuController{
+
+    public TasksMenuController() {
+        super("tasks page");
+    }
+
     public String changeTitleById(long id, String title) {
         Task task = Task.getTaskById(id);
         if (task!= null){

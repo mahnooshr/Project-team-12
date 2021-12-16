@@ -29,7 +29,7 @@ public class MainMenuController extends MenuController{
     }
 
 
-    public static HashMap<String, MenuView> getAllMenus() {
+    public HashMap<String, MenuView> getAllMenus() {
         return allMenus;
     }
 }

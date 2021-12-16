@@ -7,6 +7,9 @@ import java.util.HashMap;
 
 public class User {
     private static HashMap<String, User> allUsers = new HashMap<>();
+    private static ArrayList<String> myTasks = new ArrayList<>();////////////////
+    private static ArrayList<String> memberTeams = new ArrayList<>();/////////////////
+    private static ArrayList<String> leaderTeams = new ArrayList<>();/////////////////
     private String name;
     private String username;
     private String password;
@@ -15,15 +18,12 @@ public class User {
     private long score;
     private String role;
 
-
-    public User() {
-
-    }
-
     public User(String username, String password, String email) {
         setUsername(username);
         setPassword(password);
         setEmail(email);
+        setRole("member");
+        setScore(0);
         allUsers.put(username, this);
         ImportExportController.getInstance().refreshUsersToFileJson();
     }
@@ -53,6 +53,18 @@ public class User {
         return true;
     }
 
+    public static void addTask(String task) {
+        myTasks.add(task);
+    }
+
+    public static void addMemberTeam(String teamName) {
+        memberTeams.add(teamName);
+    }
+
+    public static void addLeaderTeam(String teamName) {
+        leaderTeams.add(teamName);
+    }
+
     public static ArrayList<String> checkForUsersThatDoNotExist(ArrayList<String> users) {
         ArrayList<String> notGoodUsers = new ArrayList<>();
         for (String username : users) {
@@ -77,6 +89,18 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    public ArrayList<String> getMyTasks() {
+        return myTasks;
+    }
+
+    public ArrayList<String> getMemberTeams() {
+        return memberTeams;
+    }
+
+    public ArrayList<String> getLeaderTeams() {
+        return leaderTeams;
     }
 
     public String getDateOfBirth() {
@@ -125,13 +149,13 @@ public class User {
 
     @Override
     public String toString() {
-        return "{ name='" + name + '\'' + '\n' +
-                ", username='" + username + '\'' + '\n' +
-                ", password='" + password + '\'' + '\n' +
-                ", email='" + email + '\'' + '\n' +
-                ", dateOfBirth='" + dateOfBirth + '\'' + '\n' +
-                ", score=" + score + '\n' +
-                ", role='" + role + '\'' + '\n' +
+        return "{ name='" + getName() + '\'' + '\n' +
+                ", username='" + getUsername() + '\'' + '\n' +
+                ", password='" + getPassword() + '\'' + '\n' +
+                ", email='" + getEmail() + '\'' + '\n' +
+                ", dateOfBirth='" + getDateOfBirth() + '\'' + '\n' +
+                ", score=" + getScore() + '\n' +
+                ", role='" + getRole() + '\'' + '\n' +
                 '}';
     }
 }

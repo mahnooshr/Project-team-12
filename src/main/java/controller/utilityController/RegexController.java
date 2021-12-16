@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 public class RegexController {
 
-    public static boolean registerRegex(String command, HashMap<String, String> info) {
+    public boolean registerRegex(String command, HashMap<String, String> info) {
         Matcher matcher = Pattern.compile("user create (\\S+) (\\S+) (\\S+) (\\S+) (\\S+) (\\S+) ([\\w- ]+) (\\S+)").matcher(command);
         if (matcher.find()) {
             return isRegisterValid(matcher, info);
@@ -35,8 +35,8 @@ public class RegexController {
         } else return false;
     }
 
-    public static boolean enterMenuRegex(String command, HashMap<String, String> info) {
-        Matcher matcher = Pattern.compile("menu enter (.+)$").matcher(command);
+    public boolean enterMenuRegex(String command, HashMap<String, String> info) {
+        Matcher matcher = Pattern.compile("menu enter (.+)").matcher(command);
         if (matcher.find()){
             info.put("menuName",matcher.group(1));
             return true;
@@ -44,7 +44,7 @@ public class RegexController {
         else return false;
     }
 
-    public static boolean changePassRegex(HashMap<String, String> info, String command) {
+    public boolean changePassRegex(HashMap<String, String> info, String command) {
         Matcher matcher = Pattern.compile("Profile --change (\\S+) (\\S+) (\\S+) (\\S+)").matcher(command);
         if (matcher.find()){
             return isChangePassFormatValid(info,matcher);
@@ -67,7 +67,7 @@ public class RegexController {
         else return false;
     }
 
-    public static boolean changeUsernameRegex(HashMap<String, String> info, String command) {
+    public boolean changeUsernameRegex(HashMap<String, String> info, String command) {
         Matcher matcher = Pattern.compile("Profile --change (\\S+) (\\S+)").matcher(command);
         if (matcher.find()){
             return isChangeUsernameValid(info,matcher);
@@ -87,7 +87,7 @@ public class RegexController {
         return false;
     }
 
-    public static boolean addUserRegex(String command, HashMap<String, ArrayList<String>> info) {
+    public boolean addUserRegex(String command, HashMap<String, ArrayList<String>> info) {
         Matcher matcher = Pattern.compile("edit --task (\\S+) (\\S+) (\\S+) (.+) --add").matcher(command);
         if (matcher.find()){
             return isAddUsersCommandValid(matcher,info);
@@ -252,6 +252,35 @@ public class RegexController {
     }
 
 
+    public boolean teamEnterRegex(HashMap<String, String> info, String command) {
+        Matcher matcher = Pattern.compile("Enter (\\S+) (\\S+)").matcher(command);
+        if (matcher.find()){
+            return isEnterValid(matcher,info);
+        }
+        else return false;
 
+    }
+
+    private boolean isEnterValid(Matcher matcher, HashMap<String, String> info) {
+        ArrayList<String> expectedParameters = new ArrayList<>();
+        ArrayList<String> inputParameters = new ArrayList<>();
+        inputParameters.add(matcher.group(1));
+        expectedParameters.add("team");
+        if (expectedParameters.containsAll(inputParameters)){
+            info.put("teamName",matcher.group(2));
+            return true;
+        }
+        return false;
+
+    }
+
+    public boolean enterSubMenuMatcher(String command, HashMap<String, String> info) {
+        Matcher matcher = Pattern.compile("(\\w+) --show").matcher(command);
+        if (matcher.find()){
+            info.put("menuName",matcher.group(1));
+            return true;
+        }
+        else return false;
+    }
 }
 

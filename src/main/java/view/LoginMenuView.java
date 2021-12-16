@@ -66,7 +66,7 @@ public class LoginMenuView extends MenuView {
 
     private void checkRegisterInput(String command) {
         HashMap<String, String> info = new HashMap<>();
-        if (!RegexController.registerRegex(command, info)) {
+        if (!regexController.registerRegex(command, info)) {
             UtilController.printString("invalid format");
         } else {
             String username = info.get("username");

@@ -2,7 +2,6 @@ package view;
 
 import controller.menusControllers.MenuController;
 import controller.menusControllers.ProfileController;
-import controller.utilityController.RegexController;
 import controller.utilityController.UtilController;
 
 import java.util.HashMap;
@@ -72,7 +71,7 @@ public class ProfileMenuView extends MenuView {
 
     private void checkChangeUsernameRegex(String command) {
         HashMap<String, String> info = new HashMap<>();
-        if (!RegexController.changeUsernameRegex(info, command)) {
+        if (!regexController.changeUsernameRegex(info, command)) {
             UtilController.printString("invalid command");
         } else {
             String newUsername = info.get("username");
@@ -82,7 +81,7 @@ public class ProfileMenuView extends MenuView {
 
     private void checkChangePassRegex(String command) {
         HashMap<String, String> info = new HashMap<>();
-        if (!RegexController.changePassRegex(info, command)) {
+        if (!regexController.changePassRegex(info, command)) {
             UtilController.printString("invalid command");
         } else {
             String oldPass = info.get("oldPass");
