@@ -59,7 +59,7 @@ public class TasksMenuView extends MenuView {
         } else {
             long id = Long.parseLong(String.valueOf(info.get("id")));
             ArrayList<String> users = info.get("users");
-            UtilController.printString(tasksMenuController.addUsersToTaskById(id,users));
+            UtilController.printString(tasksMenuController.addUsersToTaskById(id, users));
         }
     }
 
@@ -70,10 +70,11 @@ public class TasksMenuView extends MenuView {
         } else {
             long id = Long.parseLong(String.valueOf(info.get("id")));
             ArrayList<String> users = info.get("users");
-            UtilController.printString(tasksMenuController.removeUsersByTaskId(id,users));
+            UtilController.printString(tasksMenuController.removeUsersByTaskId(id, users));
         }
     }
-////////////////////////////
+
+    ////////////////////////////
     private void checkDeadLineChangeRegex(String command) {
         HashMap<String, String> info = new HashMap<>();
         if (!RegexController.deadlineRegex(command, info)) {
@@ -85,11 +86,10 @@ public class TasksMenuView extends MenuView {
         HashMap<String, String> info = new HashMap<>();
         if (!RegexController.priorityRegex(command, info)) {
             UtilController.printString("invalid command");
-        }
-        else {
+        } else {
             long id = Long.parseLong(info.get("id"));
             String priority = info.get("priority");
-            UtilController.printString(tasksMenuController.changePriorityById(id,priority));
+            UtilController.printString(tasksMenuController.changePriorityById(id, priority));
         }
     }
 
@@ -97,9 +97,9 @@ public class TasksMenuView extends MenuView {
         HashMap<String, String> info = new HashMap<>();
         if (!RegexController.descriptionRegex(command, info)) {
             UtilController.printString("invalid command");
-        }else {
+        } else {
             long id = Long.parseLong(info.get("id"));
-            UtilController.printString(tasksMenuController.setDescriptionByTaskId(id,info.get("description")));
+            UtilController.printString(tasksMenuController.setDescriptionByTaskId(id, info.get("description")));
         }
     }
 

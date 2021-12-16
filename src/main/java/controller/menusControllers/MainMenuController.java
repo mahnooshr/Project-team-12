@@ -4,8 +4,8 @@ import view.*;
 
 import java.util.HashMap;
 
-public class MainMenuController extends MenuController{
-    private static final HashMap<String, MenuView>allMenus = new HashMap<>();
+public class MainMenuController extends MenuController {
+    private static final HashMap<String, MenuView> allMenus = new HashMap<>();
 
     static {
         allMenus.put("Profile Menu", ProfileMenuView.getInstance());
@@ -22,10 +22,9 @@ public class MainMenuController extends MenuController{
 
 
     public String menuEnter(String menuName) {
-        if (allMenus.containsKey(menuName)){
+        if (allMenus.containsKey(menuName)) {
             return "menu enter successfully";
-        }
-        else return "menu name does not exists";
+        } else return "menu name does not exists";
     }
 
 
