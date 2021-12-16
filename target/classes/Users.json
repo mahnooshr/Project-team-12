@@ -1,12 +1,8 @@
 {
-  "ahmad": {
-    "username": "ahmad",
-    "password": "aresAS23!@",
-    "email": "reza@gmail.com"
-  },
-  "ali": {
-    "username": "ali",
-    "password": "aliREA123@",
-    "email": "alira@gmail.com"
+  "alireza": {
+    "username": "alireza",
+    "password": "ABCabc123!",
+    "email": "aser@gmail.com",
+    "score": 0
   }
 }

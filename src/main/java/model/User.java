@@ -2,6 +2,7 @@ package model;
 
 import controller.utilityController.ImportExportController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class User {
@@ -13,6 +14,7 @@ public class User {
     private String dateOfBirth;
     private long score;
     private String role;
+
 
     public User() {
 
@@ -49,6 +51,16 @@ public class User {
             if (allUsers.get(name).getEmail().equals(email)) return false;
         }
         return true;
+    }
+
+    public static ArrayList<String> checkForUsersThatDoNotExist(ArrayList<String> users) {
+        ArrayList<String> notGoodUsers = new ArrayList<>();
+        for (String username : users) {
+            if (!allUsers.containsKey(username)) {
+                notGoodUsers.add(username);
+            }
+        }
+        return notGoodUsers;
     }
 
     public String getEmail() {
@@ -113,13 +125,13 @@ public class User {
 
     @Override
     public String toString() {
-        return "{ name='" + name + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", dateOfBirth='" + dateOfBirth + '\'' +
-                ", score=" + score +
-                ", role='" + role + '\'' +
+        return "{ name='" + name + '\'' + '\n' +
+                ", username='" + username + '\'' + '\n' +
+                ", password='" + password + '\'' + '\n' +
+                ", email='" + email + '\'' + '\n' +
+                ", dateOfBirth='" + dateOfBirth + '\'' + '\n' +
+                ", score=" + score + '\n' +
+                ", role='" + role + '\'' + '\n' +
                 '}';
     }
 }

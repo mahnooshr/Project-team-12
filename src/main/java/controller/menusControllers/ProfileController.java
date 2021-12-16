@@ -13,14 +13,14 @@ public class ProfileController extends MenuController {
     }
 
     public String changePass(String oldPass, String newPass) {
-        if (!getActiveUser().getPassword().equals(oldPass)) {
+        if (!MenuController.getInstance().getActiveUser().getPassword().equals(oldPass)) {
             return "wrong old password";
         } else if (oldPass.equals(newPass)) {
             return "please enter new password";
-        } else if (!RegexController.isPasswordValid(newPass)) {
+        } else if (RegexController.isPasswordValid(newPass)) {
             return "Please Choose A strong Password (Containing at least 8 characters including 1 digit and 1 Capital Letter)";
         } else {
-            getActiveUser().setPassword(newPass);
+            MenuController.getInstance().getActiveUser().setPassword(newPass);
             ImportExportController.getInstance().refreshUsersToFileJson();
             return "password changed successfully";
         }
@@ -34,10 +34,10 @@ public class ProfileController extends MenuController {
             return "username already taken!";
         } else if (!matcher.find()) {
             return "New username contains Special Characters! Please remove them and try again";
-        } else if (getActiveUser().getUsername().equals(newUsername)) {
+        } else if (MenuController.getInstance().getActiveUser().getUsername().equals(newUsername)) {
             return "you already have this username !";
         } else {
-            getActiveUser().setUsername(newUsername);
+            MenuController.getInstance().getActiveUser().setUsername(newUsername);
             return "username successfully changed";
         }
     }

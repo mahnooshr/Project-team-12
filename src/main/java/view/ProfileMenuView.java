@@ -1,5 +1,6 @@
 package view;
 
+import controller.menusControllers.MenuController;
 import controller.menusControllers.ProfileController;
 import controller.utilityController.RegexController;
 import controller.utilityController.UtilController;
@@ -60,7 +61,7 @@ public class ProfileMenuView extends MenuView {
     }
 
     private String showProfile() {
-        return profileController.getActiveUser().toString();
+        return MenuController.getInstance().getActiveUser().toString();
     }
 
     private void checkShowTeamRegex(String command) {

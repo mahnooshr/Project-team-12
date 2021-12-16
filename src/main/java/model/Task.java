@@ -1,9 +1,11 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Task {
-    private static HashMap<Long,Task>tasks = new HashMap<>();
+    private static final HashMap<Long, Task> tasks = new HashMap<>();
+    private String leader;
     private long id;
     private String title;
     private String description;
@@ -11,19 +13,23 @@ public class Task {
     private String dateAndTimeOfDeadLine;
     private String comments;
     private Priority priority;
+    private final ArrayList<String> assignedUsers = new ArrayList<>();
 
     public Task(Priority priority, String comments, String dateAndTimeOfCreation, String dateAndTimeOfDeadLine, String title) {
-        this.priority = priority;
-        this.comments = comments;
-        this.dateAndTimeOfCreation = dateAndTimeOfCreation;
-        this.dateAndTimeOfDeadLine = dateAndTimeOfDeadLine;
-        this.title = title;
-        this.id = IDGenerator.nextId();
-        tasks.put(id,this);
+        setPriority(priority);
+        setComments(comments);
+        setDateAndTimeOfCreation(dateAndTimeOfCreation);
+        setDateAndTimeOfDeadLine(dateAndTimeOfDeadLine);
+        setTitle(title);
+        setId(IDGenerator.nextId());
+        tasks.put(id, this);
     }
 
+    public Task() {
 
-    public void setId(int id) {
+    }
+
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -79,11 +85,42 @@ public class Task {
         return comments;
     }
 
-    enum Priority {
-        Highest,
-        High,
-        Low,
-        Lowest
+    public ArrayList<String> getAssignedUsers() {
+        return assignedUsers;
+    }
+
+    public static Task getTaskById(long id) {
+        return tasks.get(id);
+    }
+
+    public void addUsersToTask(ArrayList<String> names) {
+        assignedUsers.addAll(names);
+    }
+
+    public void setLeader(String leader) {
+        this.leader = leader;
+    }
+
+    public String getLeader() {
+        return leader;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{ " + "\n" +
+                "Id= " + id + "\n" +
+                "Title= " + title + "\n" +
+                "Description= " + description + "\n" +
+                "DateAndTimeOfCreation= " + dateAndTimeOfCreation + "\n" +
+                "DateAndTimeOfDeadLine= " + dateAndTimeOfDeadLine + "\n" +
+                "Comments= " + comments + "\n" +
+                "Priority= " + priority + "\n" +
+                "AssignedUsers= " + assignedUsers + "\n" +
+                '}';
+    }
+
+    public void removeUsersFromTask(ArrayList<String> users) {
+        assignedUsers.removeAll(users);
     }
 
 }

@@ -14,8 +14,8 @@ public class LoginMenuController extends MenuController {
             return "username with name " + username + " already exists";
         else if (!password1.equals(password2))
             return "passwords are not the same";
-        else if (!RegexController.isPasswordValid(password1))
-            return "username or password is not strong";
+        else if (RegexController.isPasswordValid(password1))
+            return "password is not strong";
         else if (!RegexController.isEmailValid(email))
             return "email is not valid";
         else if (!User.emailDoesNotExist(email)) {
@@ -33,7 +33,6 @@ public class LoginMenuController extends MenuController {
         if (user == null || !user.getPassword().equals(password))
             return "username or password didn't match";
         else {
-
             MenuController.getInstance().setActiveUser(user);
             return "login successfully";
         }

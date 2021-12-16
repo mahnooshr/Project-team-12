@@ -8,7 +8,7 @@ public class MenuController {
     private User activeUser;
 
     public MenuController(String name) {
-        this.name = name;
+        setName(name);
         menuController = this;
     }
 
@@ -19,7 +19,7 @@ public class MenuController {
     }
 
     public User getActiveUser() {
-        return activeUser;
+        return this.activeUser;
     }
 
     public String getName() {

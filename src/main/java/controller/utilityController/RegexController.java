@@ -1,8 +1,7 @@
 package controller.utilityController;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -78,11 +77,139 @@ public class RegexController {
 
     private static boolean isChangeUsernameValid(HashMap<String, String> info, Matcher matcher) {
         ArrayList<String>expectedParameters = new ArrayList<>();
-        ArrayList<String>inputParamters = new ArrayList<>();
+        ArrayList<String>inputParameters = new ArrayList<>();
         expectedParameters.add("--username");
-        inputParamters.add(matcher.group(1));
-        if (expectedParameters.containsAll(inputParamters)){
+        inputParameters.add(matcher.group(1));
+        if (expectedParameters.containsAll(inputParameters)){
             info.put("username",matcher.group(2));
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean addUserRegex(String command, HashMap<String, ArrayList<String>> info) {
+        Matcher matcher = Pattern.compile("edit --task (\\S+) (\\S+) (\\S+) (.+) --add").matcher(command);
+        if (matcher.find()){
+            return isAddUsersCommandValid(matcher,info);
+        }
+        return false;
+    }
+
+    private static boolean isAddUsersCommandValid(Matcher matcher, HashMap<String, ArrayList<String>> info) {
+        ArrayList<String>expectedParameters = new ArrayList<>();
+        ArrayList<String>inputParameters = new ArrayList<>();
+        expectedParameters.add("--id");
+        expectedParameters.add("--assignedUsers");
+        inputParameters.add(matcher.group(1));
+        inputParameters.add(matcher.group(3));
+        if (expectedParameters.containsAll(inputParameters)){
+            ArrayList<String>id = new ArrayList<>();
+            id.add(matcher.group(2));
+            info.put("id",id);
+            info.put("users",getUsersFromString(matcher.group(4)));
+            return true;
+        }
+        return false;
+    }
+
+    private static ArrayList<String> getUsersFromString(String usernames) {
+        String[] strings = usernames.split(",");
+        return new ArrayList<>(Arrays.asList(strings));
+    }
+
+    public static boolean removeUserRegex(String command, HashMap<String, ArrayList<String>> info) {
+        Matcher matcher = Pattern.compile("edit --task (\\S+) (\\S+) (\\S+) (.+) --remove").matcher(command);
+        if (matcher.find()){
+            return isRemoveUsersCommandValid(matcher,info);
+        }
+        return false;
+    }
+
+    private static boolean isRemoveUsersCommandValid(Matcher matcher, HashMap<String, ArrayList<String>> info) {
+        ArrayList<String>expectedParameters = new ArrayList<>();
+        ArrayList<String>inputParameters = new ArrayList<>();
+        expectedParameters.add("--id");
+        expectedParameters.add("--assignedUsers");
+        inputParameters.add(matcher.group(1));
+        inputParameters.add(matcher.group(3));
+        if (expectedParameters.containsAll(inputParameters)){
+            ArrayList<String>id = new ArrayList<>();
+            id.add(matcher.group(2));
+            info.put("id",id);
+            info.put("users",getUsersFromString(matcher.group(4)));
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean deadlineRegex(String command, HashMap<String, String> info) {
+        return false;
+    }
+
+    public static boolean priorityRegex(String command, HashMap<String, String> info) {
+        Matcher matcher = Pattern.compile("edit --task (\\S+) (\\S+) (\\S+) (\\S+)").matcher(command);
+        if (matcher.find()){
+            return isPriorityValid(matcher,info);
+        }
+        return false;
+    }
+
+    private static boolean isPriorityValid(Matcher matcher, HashMap<String, String> info) {
+        ArrayList<String>expectedParameters = new ArrayList<>();
+        ArrayList<String>inputParameters = new ArrayList<>();
+        expectedParameters.add("--id");
+        expectedParameters.add("--priority");
+        inputParameters.add(matcher.group(1));
+        inputParameters.add(matcher.group(3));
+        if (expectedParameters.containsAll(inputParameters)){
+            info.put("id",matcher.group(2));
+            info.put("priority", matcher.group(4));
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean titleRegex(String command, HashMap<String, String> info) {
+        Matcher matcher = Pattern.compile("edit --task (\\d+) (\\S+) (\\S+) (\\S+)").matcher(command);
+        if (matcher.find()){
+            return isTitleValid(matcher,info);
+        }
+        return false;
+    }
+
+    private static boolean isTitleValid(Matcher matcher, HashMap<String, String> info) {
+        ArrayList<String> expectedParameters = new ArrayList<>();
+        ArrayList<String> inputParameters = new ArrayList<>();
+        inputParameters.add(matcher.group(1));
+        inputParameters.add(matcher.group(3));
+        expectedParameters.add("--title");
+        expectedParameters.add("--id");
+        if (expectedParameters.containsAll(inputParameters)){
+            info.put("id",matcher.group(2));
+            info.put("title",matcher.group(4));
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean descriptionRegex(String command, HashMap<String, String> info) {
+        Matcher matcher = Pattern.compile("edit --task (\\S+) (\\S+) (\\S+) (.+)").matcher(command);
+        if (matcher.find()){
+            return isDescriptionValid(matcher,info);
+        }
+        return false;
+    }
+
+    private static boolean isDescriptionValid(Matcher matcher, HashMap<String, String> info) {
+        ArrayList<String> expectedParameters = new ArrayList<>();
+        ArrayList<String> inputParameters = new ArrayList<>();
+        inputParameters.add(matcher.group(1));
+        inputParameters.add(matcher.group(3));
+        expectedParameters.add("--id");
+        expectedParameters.add("--descriptions");
+        if (expectedParameters.containsAll(inputParameters)){
+            info.put("id",matcher.group(2));
+            info.put("description",matcher.group(4));
             return true;
         }
         return false;
@@ -116,7 +243,7 @@ public class RegexController {
 
     public static boolean isPasswordValid(String password) {
         Matcher matcher = Pattern.compile("(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,32}").matcher(password);
-        return matcher.find();
+        return !matcher.find();
     }
 
     public static boolean isEmailValid(String email) {
