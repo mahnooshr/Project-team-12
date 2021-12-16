@@ -1,5 +1,7 @@
 package controller.utilityController;
 
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -43,6 +45,49 @@ public class RegexController {
         else return false;
     }
 
+    public static boolean changePassRegex(HashMap<String, String> info, String command) {
+        Matcher matcher = Pattern.compile("Profile --change (\\S+) (\\S+) (\\S+) (\\S+)").matcher(command);
+        if (matcher.find()){
+            return isChangePassFormatValid(info,matcher);
+        }
+        else return false;
+    }
+
+    private static boolean isChangePassFormatValid(HashMap<String, String> info, Matcher matcher) {
+        ArrayList<String> expectedParameters = new ArrayList<>();
+        ArrayList<String> inputParameters = new ArrayList<>();
+        inputParameters.add(matcher.group(1));
+        inputParameters.add(matcher.group(3));
+        expectedParameters.add("--oldPassword");
+        expectedParameters.add("--newPassword");
+        if (expectedParameters.containsAll(inputParameters)){
+            info.put("oldPass", matcher.group(2));
+            info.put("newPass", matcher.group(4));
+            return true;
+        }
+        else return false;
+    }
+
+    public static boolean changeUsernameRegex(HashMap<String, String> info, String command) {
+        Matcher matcher = Pattern.compile("Profile --change (\\S+) (\\S+)").matcher(command);
+        if (matcher.find()){
+            return isChangeUsernameValid(info,matcher);
+        }
+        return false;
+    }
+
+    private static boolean isChangeUsernameValid(HashMap<String, String> info, Matcher matcher) {
+        ArrayList<String>expectedParameters = new ArrayList<>();
+        ArrayList<String>inputParamters = new ArrayList<>();
+        expectedParameters.add("--username");
+        inputParamters.add(matcher.group(1));
+        if (expectedParameters.containsAll(inputParamters)){
+            info.put("username",matcher.group(2));
+            return true;
+        }
+        return false;
+    }
+
 
     public boolean loginRegex(String command, HashMap<String, String> info) {
         Matcher matcher = Pattern.compile("user login (\\S+) (\\S+) (\\S+) (\\S+)").matcher(command);
@@ -67,5 +112,19 @@ public class RegexController {
         }
         return false;
     }
+
+
+    public static boolean isPasswordValid(String password) {
+        Matcher matcher = Pattern.compile("(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,32}").matcher(password);
+        return matcher.find();
+    }
+
+    public static boolean isEmailValid(String email) {
+        Matcher matcher = Pattern.compile("[A-Za-z0-9+_.-]+@(.+)").matcher(email);
+        return matcher.find();
+    }
+
+
+
 }
 

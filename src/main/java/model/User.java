@@ -3,16 +3,16 @@ package model;
 import controller.utilityController.ImportExportController;
 
 import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class User {
     private static HashMap<String, User> allUsers = new HashMap<>();
+    private String name;
     private String username;
     private String password;
     private String email;
-
-
+    private String dateOfBirth;
+    private long score;
+    private String role;
 
     public User() {
 
@@ -31,19 +31,10 @@ public class User {
         return allUsers.get(username);
     }
 
-    public static boolean isUsernameValid(String username) {
+    public static boolean doesUsernameExist(String username) {
         return getUserByUsername(username) == null;
     }
 
-    public static boolean isPasswordValid(String password) {
-        Matcher matcher = Pattern.compile("(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,32}").matcher(password);
-        return matcher.find();
-    }
-
-    public static boolean isEmailValid(String email) {
-        Matcher matcher = Pattern.compile("[A-Za-z0-9+_.-]+@(.+)").matcher(email);
-        return matcher.find();
-    }
 
     public static HashMap<String, User> getAllUsers() {
         return allUsers;
@@ -54,8 +45,7 @@ public class User {
     }
 
     public static boolean emailDoesNotExist(String email) {
-        for (String name: allUsers.keySet()
-        ) {
+        for (String name : allUsers.keySet()) {
             if (allUsers.get(name).getEmail().equals(email)) return false;
         }
         return true;
@@ -73,6 +63,38 @@ public class User {
         return password;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public long getScore() {
+        return score;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void setScore(long score) {
+        this.score = score;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -85,7 +107,19 @@ public class User {
         this.username = username;
     }
 
-    public static void setAllUsers(HashMap<String, User>users){
+    public static void setAllUsers(HashMap<String, User> users) {
         allUsers = users;
+    }
+
+    @Override
+    public String toString() {
+        return "{ name='" + name + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", score=" + score +
+                ", role='" + role + '\'' +
+                '}';
     }
 }

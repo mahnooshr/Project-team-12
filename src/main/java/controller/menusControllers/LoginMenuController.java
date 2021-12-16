@@ -1,6 +1,7 @@
 package controller.menusControllers;
 
 import controller.utilityController.ImportExportController;
+import controller.utilityController.RegexController;
 import model.User;
 
 public class LoginMenuController extends MenuController {
@@ -9,16 +10,18 @@ public class LoginMenuController extends MenuController {
     }
 
     public String register(String username, String password1, String password2, String email) {
-        if (!User.isUsernameValid(username))
+        if (!User.doesUsernameExist(username))
             return "username with name " + username + " already exists";
         else if (!password1.equals(password2))
             return "passwords are not the same";
-        else if (!User.isPasswordValid(password1))
+        else if (!RegexController.isPasswordValid(password1))
             return "username or password is not strong";
-        else if (!User.isEmailValid(email))
+        else if (!RegexController.isEmailValid(email))
             return "email is not valid";
         else if (!User.emailDoesNotExist(email)) {
             return "email already exists";
+        } else if (username.length() <= 4) {
+            return "your username must contain more than 4 letters";
         } else {
             new User(username, password1, email);
             return "registered successfully";
@@ -30,6 +33,7 @@ public class LoginMenuController extends MenuController {
         if (user == null || !user.getPassword().equals(password))
             return "username or password didn't match";
         else {
+
             MenuController.getInstance().setActiveUser(user);
             return "login successfully";
         }
