@@ -1,5 +1,7 @@
 package model;
 
+import view.RoadMapsView;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -10,6 +12,8 @@ public class Team {
     private final ArrayList<String>membersAsideFromLeader = new ArrayList<>();
     private final ArrayList<String>teamTasks = new ArrayList<>();
     private Board board;
+    private Chatroom chatroom;
+    private RoadMap roadMap;
 
 
     public static Team getTeamByName(String name){

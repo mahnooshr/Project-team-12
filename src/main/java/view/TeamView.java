@@ -30,11 +30,9 @@ public class TeamView extends MenuView {
             String command = UtilController.getInput();
             if (command.contains("--show")) {
                 checkSubMenuEnterRegex(command);
-            }
-            else if (command.startsWith("show task --id")) {
+            } else if (command.startsWith("show task --id")) {
 
-            }
-            else if (command.equals("back")) {
+            } else if (command.equals("back")) {
                 exit = true;
             } else {
                 UtilController.printString("invalid command");
@@ -52,7 +50,7 @@ public class TeamView extends MenuView {
     }
 
 
-    public void checkSubMenuEnterRegex(String command){
+    public void checkSubMenuEnterRegex(String command) {
         HashMap<String, String> info = new HashMap<>();
         if (!regexController.enterSubMenuMatcher(command, info)) {
             UtilController.printString("invalid command");
