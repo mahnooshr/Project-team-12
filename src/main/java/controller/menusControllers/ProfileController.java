@@ -38,6 +38,7 @@ public class ProfileController extends MenuController {
             return "you already have this username !";
         } else {
             MenuController.getInstance().getActiveUser().setUsername(newUsername);
+            ImportExportController.getInstance().refreshUsersToFileJson();
             return "username successfully changed";
         }
     }

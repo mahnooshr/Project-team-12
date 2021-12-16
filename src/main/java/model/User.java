@@ -7,9 +7,9 @@ import java.util.HashMap;
 
 public class User {
     private static HashMap<String, User> allUsers = new HashMap<>();
-    private static ArrayList<String> myTasks = new ArrayList<>();////////////////
-    private static ArrayList<String> memberTeams = new ArrayList<>();/////////////////
-    private static ArrayList<String> leaderTeams = new ArrayList<>();/////////////////
+    private static final ArrayList<String> myTasks = new ArrayList<>();////////////////
+    private static final ArrayList<String> memberTeams = new ArrayList<>();/////////////////
+    private static final ArrayList<String> leaderTeams = new ArrayList<>();/////////////////
     private String name;
     private String username;
     private String password;

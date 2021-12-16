@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Task {
-    private static final HashMap<Long, Task> tasks = new HashMap<>();
+    private static HashMap<Long, Task> tasks = new HashMap<>();
     private String leader;
     private long id;
     private String title;
@@ -15,12 +15,13 @@ public class Task {
     private Priority priority;
     private final ArrayList<String> assignedUsers = new ArrayList<>();
 
-    public Task(Priority priority, String comments, String dateAndTimeOfCreation, String dateAndTimeOfDeadLine, String title) {
+    public Task(Priority priority, String comments, String dateAndTimeOfCreation, String dateAndTimeOfDeadLine, String title,String leader) {
         setPriority(priority);
         setComments(comments);
         setDateAndTimeOfCreation(dateAndTimeOfCreation);
         setDateAndTimeOfDeadLine(dateAndTimeOfDeadLine);
         setTitle(title);
+        setLeader(leader);
         setId(IDGenerator.nextId());
         tasks.put(id, this);
     }
@@ -103,6 +104,14 @@ public class Task {
 
     public String getLeader() {
         return leader;
+    }
+
+    public static void setTasks(HashMap<Long, Task> tasks) {
+        Task.tasks = tasks;
+    }
+
+    public static HashMap<Long, Task> getTasks() {
+        return tasks;
     }
 
     @Override

@@ -19,6 +19,7 @@ public class TasksMenuController extends MenuController{
                 return "you don't have access to do this action";
             }else {
                 task.setTitle(title);
+
                 return "title updated successfully";
             }
         }
