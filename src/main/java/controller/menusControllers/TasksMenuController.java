@@ -1,6 +1,5 @@
 package controller.menusControllers;
 
-import controller.utilityController.RegexController;
 import model.Priority;
 import model.Task;
 import model.User;
@@ -103,12 +102,11 @@ public class TasksMenuController extends MenuController {
                 return "you don't have access to this action";
             } else {
                 try {
-                    if (task.isDeadlineValid(deadLine)){
+                    if (task.isDeadlineValid(deadLine)) {
                         task.setDateAndTimeOfDeadLine(new SimpleDateFormat("yyyy-MM-dd|HH:mm").parse(deadLine));
                         return "deadline changed successfully";
-                    }else return "new deadline is invalid";
-                }
-                catch (Exception e){
+                    } else return "new deadline is invalid";
+                } catch (Exception e) {
                     return "new deadline is invalid";
                 }
             }
