@@ -16,6 +16,7 @@ public class Task {
     private Date dateAndTimeOfDeadLine;
     private String comments;
     private Priority priority;
+    private String category;
     private final ArrayList<String> assignedUsers = new ArrayList<>();
 
     public Task(Priority priority, String comments, String dateAndTimeOfCreation, String dateAndTimeOfDeadLine, String title,String leader) throws ParseException {
@@ -29,8 +30,9 @@ public class Task {
         tasks.put(id, this);
     }
 
-    public Task() {
 
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public void setId(long id) {
@@ -71,6 +73,10 @@ public class Task {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getCategory() {
+        return category;
     }
 
     public Date getDateAndTimeOfCreation() {
@@ -119,17 +125,28 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{ " + "\n" +
-                "Id= " + id + "\n" +
-                "Title= " + title + "\n" +
-                "Description= " + description + "\n" +
-                "DateAndTimeOfCreation= " + dateAndTimeOfCreation + "\n" +
-                "DateAndTimeOfDeadLine= " + dateAndTimeOfDeadLine + "\n" +
-                "Comments= " + comments + "\n" +
-                "Priority= " + priority + "\n" +
-                "AssignedUsers= " + assignedUsers + "\n" +
-                '}';
+        return "Title: " + title +":Id " + id +
+                ",DateAndTimeOfCreation: " + dateAndTimeOfCreation +
+                ",DateAndTimeOfDeadLine: " + dateAndTimeOfDeadLine +
+                ",AssignedUsers: " + assignedUsers +
+                ",Priority: " + priority;
     }
+
+
+
+    public static String sortAndShow(ArrayList<Task> tasks) {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (tasks.size()==0)
+            return "no task yet";
+        else {
+            for (int i = 0; i < tasks.size(); i++) {
+                stringBuilder.append(i).append(1).append(":").append(tasks.get(i).toString()).append("\n");
+            }
+            return String.valueOf(stringBuilder);
+        }
+
+    }
+
 
     public void removeUsersFromTask(ArrayList<String> users) {
         assignedUsers.removeAll(users);
