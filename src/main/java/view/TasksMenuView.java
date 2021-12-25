@@ -74,11 +74,15 @@ public class TasksMenuView extends MenuView {
         }
     }
 
-    ////////////////////////////
     private void checkDeadLineChangeRegex(String command) {
         HashMap<String, String> info = new HashMap<>();
         if (!RegexController.deadlineRegex(command, info)) {
             UtilController.printString("invalid command");
+        }
+        else{
+            long id = Long.parseLong(info.get("id"));
+            String deadLine = info.get("deadline");
+            UtilController.printString(tasksMenuController.changeDeadline(id,deadLine));
         }
     }
 

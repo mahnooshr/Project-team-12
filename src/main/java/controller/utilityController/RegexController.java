@@ -1,8 +1,6 @@
 package controller.utilityController;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -143,6 +141,25 @@ public class RegexController {
     }
 
     public static boolean deadlineRegex(String command, HashMap<String, String> info) {
+        Matcher matcher = Pattern.compile("edit --task (\\S+) (\\S+) (\\S+) (\\S+)").matcher(command);
+        if (matcher.find()){
+            return isDeadlineValidCommandValid(matcher, info);
+        }
+        return false;
+    }
+
+    private static boolean isDeadlineValidCommandValid(Matcher matcher, HashMap<String, String> info) {
+        ArrayList<String>expectedParameters = new ArrayList<>();
+        ArrayList<String>inputParameters = new ArrayList<>();
+        expectedParameters.add("--id");
+        expectedParameters.add("--deadline");
+        inputParameters.add(matcher.group(1));
+        inputParameters.add(matcher.group(3));
+        if (expectedParameters.containsAll(inputParameters)){
+            info.put("id",matcher.group(2));
+            info.put("deadline", matcher.group(4));
+            return true;
+        }
         return false;
     }
 
@@ -242,8 +259,22 @@ public class RegexController {
 
 
     public static boolean isPasswordValid(String password) {
-        Matcher matcher = Pattern.compile("(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,32}").matcher(password);
-        return !matcher.find();
+        int n = password.length();
+        boolean hasLower = false, hasUpper = false,
+                hasDigit = false, specialChar = false;
+        Set<Character> set = new HashSet<>(Arrays.asList('!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '+'));
+        char[] charArray = password.toCharArray();
+        for (char i : charArray) {
+            if (Character.isLowerCase(i))
+                hasLower = true;
+            if (Character.isUpperCase(i))
+                hasUpper = true;
+            if (Character.isDigit(i))
+                hasDigit = true;
+            if (set.contains(i))
+                specialChar = true;
+        }
+        return hasDigit && hasLower && hasUpper && specialChar && (n >= 8) && (n<= 32);
     }
 
     public static boolean isEmailValid(String email) {
@@ -281,6 +312,15 @@ public class RegexController {
             return true;
         }
         else return false;
+    }
+
+    public boolean showTaskByID(String command, HashMap<String, String> info) {
+        Matcher matcher = Pattern.compile("").matcher(command);
+        if (matcher.find()){
+            info.put("id", matcher.group(1));
+            return true;
+        }
+        return false;
     }
 }
 

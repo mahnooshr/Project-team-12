@@ -4,9 +4,10 @@ import model.Priority;
 import model.Task;
 import model.User;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class TasksMenuController extends MenuController{
+public class TasksMenuController extends MenuController {
 
     public TasksMenuController() {
         super("tasks page");
@@ -14,10 +15,10 @@ public class TasksMenuController extends MenuController{
 
     public String changeTitleById(long id, String title) {
         Task task = Task.getTaskById(id);
-        if (task!= null){
-            if (!task.getLeader().equals(MenuController.getInstance().getActiveUser().getUsername())){
+        if (task != null) {
+            if (!task.getLeader().equals(MenuController.getInstance().getActiveUser().getUsername())) {
                 return "you don't have access to do this action";
-            }else {
+            } else {
                 task.setTitle(title);
 
                 return "title updated successfully";
@@ -28,19 +29,16 @@ public class TasksMenuController extends MenuController{
 
     public String addUsersToTaskById(long id, ArrayList<String> users) {
         Task task = Task.getTaskById(id);
-        if (task != null){
-            if (!MenuController.getInstance().getActiveUser().getUsername().equals(task.getLeader())){
+        if (task != null) {
+            if (!MenuController.getInstance().getActiveUser().getUsername().equals(task.getLeader())) {
                 return "you don't have access to do this action";
-            }
-            else
-            {
+            } else {
                 ArrayList<String> notGoodNames = User.checkForUsersThatDoNotExist(users);
-                if (notGoodNames.size()!=0) {
+                if (notGoodNames.size() != 0) {
                     task.addUsersToTask(users);
                     return "users " + users + " added successfully";
-                }
-                else{
-                     return "there is not any users with usernames " + notGoodNames;
+                } else {
+                    return "there is not any users with usernames " + notGoodNames;
                 }
             }
 
@@ -50,18 +48,15 @@ public class TasksMenuController extends MenuController{
 
     public String removeUsersByTaskId(long id, ArrayList<String> users) {
         Task task = Task.getTaskById(id);
-        if (task != null){
-            if (!MenuController.getInstance().getActiveUser().getUsername().equals(task.getLeader())){
+        if (task != null) {
+            if (!MenuController.getInstance().getActiveUser().getUsername().equals(task.getLeader())) {
                 return "you don't have access to do this action";
-            }
-            else
-            {
+            } else {
                 ArrayList<String> notGoodNames = User.checkForUsersThatDoNotExist(users);
-                if (notGoodNames.size()!=0) {
+                if (notGoodNames.size() != 0) {
                     task.removeUsersFromTask(users);
                     return "users " + users + " removed successfully";
-                }
-                else{
+                } else {
                     return "there is not any users with usernames " + notGoodNames;
                 }
             }
@@ -72,35 +67,49 @@ public class TasksMenuController extends MenuController{
 
     public String setDescriptionByTaskId(long id, String description) {
         Task task = Task.getTaskById(id);
-        if (task!=null){
-            if (!MenuController.getInstance().getActiveUser().getUsername().equals(task.getLeader())){
+        if (task != null) {
+            if (!MenuController.getInstance().getActiveUser().getUsername().equals(task.getLeader())) {
                 return "you don't have access to this action";
-            }
-            else {
+            } else {
                 task.setDescription(description);
                 return "description changed successfully";
             }
-        }
-        else
+        } else
             return "task with id " + id + " does not exist";
     }
 
     public String changePriorityById(long id, String priority) {
         Task task = Task.getTaskById(id);
-        if (task!=null){
-            if (!MenuController.getInstance().getActiveUser().getUsername().equals(task.getLeader())){
+        if (task != null) {
+            if (!MenuController.getInstance().getActiveUser().getUsername().equals(task.getLeader())) {
                 return "you don't have access to this action";
-            }
-            else {
+            } else {
                 try {
                     task.setPriority(Priority.valueOf(priority));
                     return "priority changed successfully";
-                }catch (Exception e){
+                } catch (Exception e) {
                     return "there is no priority with name " + priority;
                 }
             }
-        }
-        else
+        } else
             return "task with id " + id + " does not exist";
+    }
+
+    public String changeDeadline(long id, String deadLine) {
+        Task task = Task.getTaskById(id);
+        if (task != null) {
+            if (!MenuController.getInstance().getActiveUser().getUsername().equals(task.getLeader())) {
+                return "you don't have access to this action";
+            } else {
+                try {
+                    if (task.isDeadlineValid(deadLine)) {
+                        task.setDateAndTimeOfDeadLine(new SimpleDateFormat("yyyy-MM-dd|HH:mm").parse(deadLine));
+                        return "deadline changed successfully";
+                    } else return "new deadline is invalid";
+                } catch (Exception e) {
+                    return "new deadline is invalid";
+                }
+            }
+        } else return "task with id " + id + " does not exist";
     }
 }
