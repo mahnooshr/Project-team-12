@@ -1,6 +1,9 @@
 package model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class Task {
@@ -9,17 +12,17 @@ public class Task {
     private long id;
     private String title;
     private String description;
-    private String dateAndTimeOfCreation;
-    private String dateAndTimeOfDeadLine;
+    private Date dateAndTimeOfCreation;
+    private Date dateAndTimeOfDeadLine;
     private String comments;
     private Priority priority;
     private final ArrayList<String> assignedUsers = new ArrayList<>();
 
-    public Task(Priority priority, String comments, String dateAndTimeOfCreation, String dateAndTimeOfDeadLine, String title,String leader) {
+    public Task(Priority priority, String comments, String dateAndTimeOfCreation, String dateAndTimeOfDeadLine, String title,String leader) throws ParseException {
         setPriority(priority);
         setComments(comments);
-        setDateAndTimeOfCreation(dateAndTimeOfCreation);
-        setDateAndTimeOfDeadLine(dateAndTimeOfDeadLine);
+        setDateAndTimeOfCreation(new SimpleDateFormat("yyyy-MM-dd|HH:mm").parse(dateAndTimeOfCreation));
+        setDateAndTimeOfDeadLine(new SimpleDateFormat("yyyy-MM-dd|HH:mm").parse(dateAndTimeOfDeadLine));
         setTitle(title);
         setLeader(leader);
         setId(IDGenerator.nextId());
@@ -38,11 +41,11 @@ public class Task {
         this.comments = comments;
     }
 
-    public void setDateAndTimeOfCreation(String dateAndTimeOfCreation) {
+    public void setDateAndTimeOfCreation(Date dateAndTimeOfCreation) {
         this.dateAndTimeOfCreation = dateAndTimeOfCreation;
     }
 
-    public void setDateAndTimeOfDeadLine(String dateAndTimeOfDeadLine) {
+    public void setDateAndTimeOfDeadLine(Date dateAndTimeOfDeadLine) {
         this.dateAndTimeOfDeadLine = dateAndTimeOfDeadLine;
     }
 
@@ -70,11 +73,11 @@ public class Task {
         return description;
     }
 
-    public String getDateAndTimeOfCreation() {
+    public Date getDateAndTimeOfCreation() {
         return dateAndTimeOfCreation;
     }
 
-    public String getDateAndTimeOfDeadLine() {
+    public Date getDateAndTimeOfDeadLine() {
         return dateAndTimeOfDeadLine;
     }
 
@@ -132,4 +135,8 @@ public class Task {
         assignedUsers.removeAll(users);
     }
 
+    public boolean isDeadlineValid(String deadLine) throws ParseException {
+        Date date = new SimpleDateFormat("yyyy-MM-dd|HH:mm").parse(deadLine);
+        return dateAndTimeOfCreation.compareTo(date) < 0;
+    }
 }
