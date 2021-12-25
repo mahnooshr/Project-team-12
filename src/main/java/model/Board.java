@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 
 public class Board {
@@ -9,9 +8,9 @@ public class Board {
     String name;
     String teamName;
     String leader;
-    HashMap<String, ArrayList<String>>categoriesAndTasks = new HashMap<>();
-    ArrayList<Task>tasks;
-    HashMap<String, Board>boards = new HashMap<>();
+    HashMap<String, ArrayList<String>> categoriesAndTasks = new HashMap<>();
+    ArrayList<Task> tasks;
+    HashMap<String, Board> boards = new HashMap<>();
 
     public String getName() {
         return name;
@@ -41,13 +40,12 @@ public class Board {
     }
 
     private float getFailedPercentage() {
-        return (float) (categoriesAndTasks.get("failed").size()/categoriesAndTasks.size());
+        return (float) (categoriesAndTasks.get("failed").size() / categoriesAndTasks.size());
     }
 
     private float getDonePercentage() {
-        return (float)(categoriesAndTasks.get("done").size()/ categoriesAndTasks.size());
+        return (float) (categoriesAndTasks.get("done").size() / categoriesAndTasks.size());
     }
-
 
 
     public String showTasks() {
