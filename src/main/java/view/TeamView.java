@@ -31,10 +31,13 @@ public class TeamView extends MenuView {
             if (command.contains("--show")) {
                 checkSubMenuEnterRegex(command);
             } else if (command.startsWith("show task --id")) {
-
+                checkShowTaskByID(command);
             } else if (command.equals("back")) {
                 exit = true;
-            } else {
+            } else if (command.equals("show tasks")){
+                UtilController.printString(teamMenuController.showTasks());
+            }
+            else{
                 UtilController.printString("invalid command");
             }
             if (enter) {
@@ -46,6 +49,16 @@ public class TeamView extends MenuView {
                 return;
             }
 
+        }
+    }
+
+    private void checkShowTaskByID(String command) {
+        HashMap<String, String> info = new HashMap<>();
+        if (!regexController.showTaskByID(command, info)) {
+            UtilController.printString("invalid command");
+        } else {
+            long id = Long.parseLong(info.get("id"));
+            UtilController.printString(teamMenuController.showTaskByID(id));
         }
     }
 
