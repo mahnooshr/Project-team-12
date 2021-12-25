@@ -313,5 +313,14 @@ public class RegexController {
         }
         else return false;
     }
+
+    public boolean showTaskByID(String command, HashMap<String, String> info) {
+        Matcher matcher = Pattern.compile("").matcher(command);
+        if (matcher.find()){
+            info.put("id", matcher.group(1));
+            return true;
+        }
+        return false;
+    }
 }
 
