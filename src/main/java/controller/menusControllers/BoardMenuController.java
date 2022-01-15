@@ -9,5 +9,4 @@ import java.util.Comparator;
 public class BoardMenuController extends MenuController{
     public BoardMenuController() {
         super("Board Menu");
-    }
-}
+    }}
