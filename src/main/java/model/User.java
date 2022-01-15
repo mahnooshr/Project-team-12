@@ -1,161 +1,142 @@
 package model;
 
-import controller.utilityController.ImportExportController;
+
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class User {
-    private static HashMap<String, User> allUsers = new HashMap<>();
-    private static final ArrayList<String> myTasks = new ArrayList<>();////////////////
-    private static final ArrayList<String> memberTeams = new ArrayList<>();/////////////////
-    private static final ArrayList<String> leaderTeams = new ArrayList<>();/////////////////
-    private String name;
-    private String username;
-    private String password;
-    private String email;
-    private String dateOfBirth;
-    private long score;
-    private String role;
+    private static ArrayList<User> allUsers;
 
-    public User(String username, String password, String email) {
-        setUsername(username);
-        setPassword(password);
-        setEmail(email);
-        setRole("member");
-        setScore(0);
-        allUsers.put(username, this);
-        ImportExportController.getInstance().refreshUsersToFileJson();
+    static {
+        allUsers = new ArrayList<>();
     }
 
-
-    public static User getUserByUsername(String username) {
-        return allUsers.get(username);
+    private String activeDeckName;
+    private ArrayList<String> passes;
+    private String userName;
+    private String passWord;
+    private String Email;
+    private int score;
+    private int money;
+    public enum UserType{
+        ADMIN,
+        MEMBER,
+        TEAMLEADER,
+    }
+    public UserType userPermissions;
+    public User(String userName, String passWord, String Email,UserType userType) {
+        this.userName = userName;
+        this.passWord = passWord;
+        this.Email = Email;
+        userPermissions = userType;
+        passes=new ArrayList<>();
+        passes.add(passWord);
     }
 
-    public static boolean doesUsernameExist(String username) {
-        return getUserByUsername(username) == null;
+    public UserType getUserPermissions() {
+        return userPermissions;
     }
 
+    public void setUserPermissions(UserType userPermissions) {
+        this.userPermissions = userPermissions;
+    }
 
-    public static HashMap<String, User> getAllUsers() {
+    public static User getUserByUserName(String userName) {
+        for (User user : allUsers) {
+            if (user.userName.equals(userName))
+                return user;
+        }
+        return null;
+    }
+
+    public static void removeUserByUsername(String username) {
+        for (User user : allUsers) {
+            if (user.userName.equals(username)) {
+                User.getAllUsers().remove(user);
+                return;
+            }
+        }
+    }
+
+    public static User getUserByEmail(String email) {
+        for (User user : allUsers) {
+            if (user.getEmail().equals(email))
+                return user;
+        }
+        return null;
+    }
+
+    public static ArrayList<User> getAllUsers() {
         return allUsers;
     }
 
-    public static void removeByUserName(String username) {
-        allUsers.remove(username);
+    public static void setAllUsers(ArrayList<User> allUsers) {
+        User.allUsers = allUsers;
     }
 
-    public static boolean emailDoesNotExist(String email) {
-        for (String name : allUsers.keySet()) {
-            if (allUsers.get(name).getEmail().equals(email)) return false;
-        }
-        return true;
+
+
+    public String getUserName() {
+        return userName;
     }
 
-    public static void addTask(String task) {
-        myTasks.add(task);
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public static void addMemberTeam(String teamName) {
-        memberTeams.add(teamName);
+    public String getPassWord() {
+        return passWord;
     }
 
-    public static void addLeaderTeam(String teamName) {
-        leaderTeams.add(teamName);
+    public void setPassWord(String passWord) {
+        this.passWord = passWord;
     }
 
-    public static ArrayList<String> checkForUsersThatDoNotExist(ArrayList<String> users) {
-        ArrayList<String> notGoodUsers = new ArrayList<>();
-        for (String username : users) {
-            if (!allUsers.containsKey(username)) {
-                notGoodUsers.add(username);
-            }
-        }
-        return notGoodUsers;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public ArrayList<String> getMyTasks() {
-        return myTasks;
-    }
-
-    public ArrayList<String> getMemberTeams() {
-        return memberTeams;
-    }
-
-    public ArrayList<String> getLeaderTeams() {
-        return leaderTeams;
-    }
-
-    public String getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public long getScore() {
+    public int getScore() {
         return score;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDateOfBirth(String dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public void setScore(long score) {
+    public void setScore(int score) {
         this.score = score;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
+    public void changeMoney(int amount) {
+        this.setMoney(this.getMoney() + amount);
+    }
+
+    public ArrayList<String> getPasses() {
+        return passes;
+    }
+
+    public void setPasses(ArrayList<String> passes) {
+        this.passes = passes;
+    }
+
+
+
+    public String getEmail() {
+        return Email;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        Email = email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+
+    public String getActiveDeckName() {
+        return activeDeckName;
     }
 
-    public static void setAllUsers(HashMap<String, User> users) {
-        allUsers = users;
-    }
+    public void setActiveDeckName(String activeDeckName) {
+        this.activeDeckName = activeDeckName;
+    }}
 
-    @Override
-    public String toString() {
-        return "{ name='" + getName() + '\'' + '\n' +
-                ", username='" + getUsername() + '\'' + '\n' +
-                ", password='" + getPassword() + '\'' + '\n' +
-                ", email='" + getEmail() + '\'' + '\n' +
-                ", dateOfBirth='" + getDateOfBirth() + '\'' + '\n' +
-                ", score=" + getScore() + '\n' +
-                ", role='" + getRole() + '\'' + '\n' +
-                '}';
-    }
-}
+
