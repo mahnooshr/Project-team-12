@@ -2,6 +2,3 @@ Team-12-AP2021Fall
 
 Mahnoosh Ramtin 99101592
 
-Kamyar Maham 99102326
-
-ReZa NoZari 99105786
