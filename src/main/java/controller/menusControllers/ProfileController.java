@@ -1,45 +1,51 @@
-package controller.menusControllers;
+package controller.menuController;
 
-import controller.utilityController.ImportExportController;
-import controller.utilityController.RegexController;
-import model.User;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import controller.responses.ProfileMenuResponses;
+import controller.Controller.RegexController;
 
 public class ProfileController extends MenuController {
     public ProfileController() {
-        super("profile menu");
+        super("Profile Menu");
     }
 
-    public String changePass(String oldPass, String newPass) {
-        if (!MenuController.getInstance().getActiveUser().getPassword().equals(oldPass)) {
-            return "wrong old password";
-        } else if (oldPass.equals(newPass)) {
-            return "please enter new password";
-        } else if (RegexController.isPasswordValid(newPass)) {
-            return "Please Choose A strong Password (Containing at least 8 characters including 1 digit and 1 Capital Letter)";
-        } else {
-            MenuController.getInstance().getActiveUser().setPassword(newPass);
-            ImportExportController.getInstance().refreshUsersToFileJson();
-            return "password changed successfully";
+    public ProfileMenuResponses changePassword(String userPassword, String newPassword) {
+        if (!user.getPassWord().equals(userPassword)){
+            return ProfileMenuResponses.CURRENT_PASSWORD_INVALID;
+
+        }
+        else if (user.getPasses().contains(newPassword))
+            return ProfileMenuResponses.IDENTICAL_PASSWORDS;
+        else if (RegexController.newPassRegex(newPassword))
+            return ProfileMenuResponses.PASS_NOT_STRONG;
+
+        else {
+
+            user.setPassWord(newPassword);
+            databaseController.refreshUsersToFileJson();
+            return ProfileMenuResponses.PASSWORD_CHANGE_SUCCESSFUL;
         }
     }
 
-    public String changeUsername(String newUsername) {
-        Matcher matcher = Pattern.compile("([\\w\\d_]{4,})").matcher(newUsername);
-        if (newUsername.length() <= 4) {
-            return "Your new username must include at least 4 characters!";
-        } else if (User.getUserByUsername(newUsername) != null) {
-            return "username already taken!";
-        } else if (!matcher.find()) {
-            return "New username contains Special Characters! Please remove them and try again";
-        } else if (MenuController.getInstance().getActiveUser().getUsername().equals(newUsername)) {
-            return "you already have this username !";
-        } else {
-            MenuController.getInstance().getActiveUser().setUsername(newUsername);
-            ImportExportController.getInstance().refreshUsersToFileJson();
-            return "username successfully changed";
+
+
+    public ProfileMenuResponses changeUsername( String newUsername) {
+        if(!RegexController.newUsernameRegex(newUsername))
+            return ProfileMenuResponses.INCLOUD_ATLEAST_CHAR;
+        else if (!user.getUserName().equals(newUsername)){
+            return ProfileMenuResponses.USER_ALREADY_TAKEN;
+
+        }
+        else if (!RegexController.newUsernameRegex2(newUsername)){
+            return ProfileMenuResponses.COUNTAINS_SPECIAL_CHAR;
+
+        }
+        else if (user.getUserName().equals(newUsername))
+            return ProfileMenuResponses.SAME_USENAME;
+        else {
+            user.setUserName(newUsername);
+            databaseController.refreshUsersToFileJson();
+            return ProfileMenuResponses.USERNAME_CHANGE_SUCCESSFUL;
         }
     }
 }
+
