@@ -1,34 +1,30 @@
-package controller.menusControllers;
+package controller.menuController;
 
+import controller.responses.MainMenuResponses;
 import view.*;
 
 import java.util.HashMap;
 
 public class MainMenuController extends MenuController {
-    private static final HashMap<String, MenuView> allMenus = new HashMap<>();
-
+    private static final HashMap<String, Menu> allMenus = new HashMap<>();
     static {
-        allMenus.put("Profile Menu", ProfileMenuView.getInstance());
-        allMenus.put("Tasks Page", TasksMenuView.getInstance());
-        allMenus.put("Teams Menu", TeamsMenuView.getInstance());
-        allMenus.put("Notification Bar", NotificationBarView.getInstance());
-        allMenus.put("Calender Menu", CalenderMenuView.getInstance());
+
     }
-
-
     public MainMenuController() {
-        super("main menu");
+        super("Main Menu");
     }
 
-
-    public String menuEnter(String menuName) {
-        if (allMenus.containsKey(menuName)) {
-            return "menu enter successfully";
-        } else return "menu name does not exists";
-    }
-
-
-    public HashMap<String, MenuView> getAllMenus() {
+    public static HashMap<String, Menu> getAllMenus() {
         return allMenus;
     }
+
+    public MainMenuResponses menuEnter(String menuName) {
+        if (allMenus.containsKey(menuName))
+            return MainMenuResponses.MENU_ENTER_SUCCESSFUL;
+        else return MainMenuResponses.MENU_NAME_NOT_EXIST;
+    }
+    public MainMenuResponses logout() {
+        return MainMenuResponses.USER_LOGOUT_SUCCESSFUL;
+    }
+
 }
